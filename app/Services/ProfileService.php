@@ -15,4 +15,14 @@ class ProfileService
             throw new Exception("Failed to create profile: " . $e->getMessage());
         }
     }
+
+    public function updateProfile(Profile $profile, array $data): Profile
+    {
+        try {
+            $profile->update($data);
+            return $profile;
+        } catch (Exception $e) {
+            throw new Exception("Failed to update profile: " . $e->getMessage());
+        }
+    }
 }
