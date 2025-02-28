@@ -25,4 +25,14 @@ class ProfileService
             throw new Exception("Failed to update profile: " . $e->getMessage());
         }
     }
+
+    public function deleteProfile(Profile $profile): bool
+    {
+        try {
+            return $profile->delete();
+        } catch (Exception $e) {
+            throw new Exception("Failed to delete profile: " . $e->getMessage());
+        }
+
+    }
 }

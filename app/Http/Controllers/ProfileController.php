@@ -43,4 +43,12 @@ class ProfileController extends Controller
         ], 200);
     }
 
+    public function destroy(Profile $profile): JsonResponse
+    {
+        $this->profileService->deleteProfile($profile);
+
+        return response()->json([
+            'message' => 'The profile has been successfully deleted'
+        ]);
+    }
 }
