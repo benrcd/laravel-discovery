@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Profile;
+use App\Models\User;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Exception;
 use Illuminate\Database\Eloquent\Collection;
@@ -38,11 +39,16 @@ class ProfileService
 
     }
 
-    public function getActiveProfiles(): Collection
+    public function getActiveProfiles(?User $user): Collection
     {
         try {
+            if($user){
+                return Profile::where('status', 'actif')
+                ->get();
+            }
             return Profile::where('status', 'actif')
-                                ->get();
+            ->select('id', 'firstname', 'lastname')
+            ->get();
         } catch (Exception $e) {
             throw new Exception("Failed to retrieve profiles: " . $e->getMessage());
         }
