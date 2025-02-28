@@ -7,6 +7,8 @@ use App\Http\Requests\UpdateProfileRequest;
 use App\Models\Profile;
 use Illuminate\Http\JsonResponse;
 use App\Services\ProfileService;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class ProfileController extends Controller
 {
@@ -48,8 +50,13 @@ class ProfileController extends Controller
 
     public function getActiveProfiles(): JsonResponse
     {
-        $profiles = $this->profileService->getActiveProfiles();
+        $user = Auth::guard('sanctum')->user();
 
+        if ($user) {
+            $profiles = $this->profileService->getActiveProfilesAdmin();
+            return response()->json($profiles);
+        }
+        $profiles = $this->profileService->getActiveProfiles();
         return response()->json($profiles);
     }
 }

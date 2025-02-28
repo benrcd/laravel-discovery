@@ -41,8 +41,19 @@ class ProfileService
     public function getActiveProfiles(): Collection
     {
         try {
-            return Profile::where('status', 'actif')
-                                ->get();
+                return Profile::where('status', 'actif')
+                ->select('id', 'firstname', 'lastname')
+                ->get();
+        } catch (Exception $e) {
+            throw new Exception("Failed to retrieve profiles: " . $e->getMessage());
+        }
+    }
+
+    public function getActiveProfilesAdmin(): Collection
+    {
+        try {
+                return Profile::where('status', 'actif')
+                ->get();
         } catch (Exception $e) {
             throw new Exception("Failed to retrieve profiles: " . $e->getMessage());
         }
