@@ -51,12 +51,7 @@ class ProfileController extends Controller
     public function getActiveProfiles(): JsonResponse
     {
         $user = Auth::guard('sanctum')->user();
-
-        if ($user) {
-            $profiles = $this->profileService->getActiveProfilesAdmin();
-            return response()->json($profiles);
-        }
-        $profiles = $this->profileService->getActiveProfiles();
+        $profiles = $this->profileService->getActiveProfiles($user);
         return response()->json($profiles);
     }
 }
