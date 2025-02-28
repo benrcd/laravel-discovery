@@ -17,12 +17,6 @@ class ProfileController extends Controller
         $this->profileService = $profileService;
     }
 
-    public function index(): JsonResponse
-    {
-        $profiles = (Profile::query()->get());
-        return response()->json($profiles);
-    }
-
     public function store(StoreProfileRequest $request): JsonResponse
     {
         $validatedData = $request->validated();
@@ -50,5 +44,12 @@ class ProfileController extends Controller
         return response()->json([
             'message' => 'The profile has been successfully deleted'
         ]);
+    }
+
+    public function getActiveProfiles(): JsonResponse
+    {
+        $profiles = $this->profileService->getActiveProfiles();
+
+        return response()->json($profiles);
     }
 }

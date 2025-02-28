@@ -8,3 +8,5 @@ Route::apiResource('profiles', ProfileController::class);
 Route::get('test', function () {
     return 'working?';
 });
+
+Route::get('/profiles', [ProfileController::class, 'getActiveProfiles']);
