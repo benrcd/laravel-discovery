@@ -8,7 +8,6 @@ use App\Models\Profile;
 use Illuminate\Http\JsonResponse;
 use App\Services\ProfileService;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
 
 class ProfileController extends Controller
 {
