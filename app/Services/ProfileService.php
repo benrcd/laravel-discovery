@@ -4,7 +4,7 @@ namespace App\Services;
 
 use App\Models\Profile;
 use App\Models\User;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\UploadedFile;
 use Exception;
 use Illuminate\Database\Eloquent\Collection;
 
@@ -13,6 +13,10 @@ class ProfileService
     public function createProfile(array $data): Profile
     {
         try {
+            if (isset($data['image']) && $data['image'] instanceof UploadedFile) {
+                $imagePath = $data['image']->store('profiles', 'public');
+                $data['image'] = $imagePath;
+            }
             return Profile::create($data);
         } catch (Exception $e) {
             throw new Exception("Failed to create profile: " . $e->getMessage());
@@ -44,11 +48,11 @@ class ProfileService
         try {
             if($user){
                 return Profile::where('status', 'actif')
-                ->get();
+                                ->get();
             }
             return Profile::where('status', 'actif')
-            ->select('id', 'firstname', 'lastname')
-            ->get();
+                            ->select('id', 'firstname', 'lastname')
+                            ->get();
         } catch (Exception $e) {
             throw new Exception("Failed to retrieve profiles: " . $e->getMessage());
         }
